@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="TERESTO - Transforming Every Resource, Enabling Social Technology Online. Explore tech blogs, tools, education, games, and more!">
+  <title>TERESTO - Connect, Learn, Explore</title>
+  <style>
+        * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', 'Segoe UI', Arial, sans-serif;
+      line-height: 1.7;
+      background: linear-gradient(145deg, #e6f0fa, #f9f9fc);
+      color: #2d3748;
+      scroll-behavior: smooth;
+      overflow-x: hidden;
+    }
+
+    header {
+      background: linear-gradient(90deg, #1a365d, #2b5288);
+      color: #fff;
+      padding: 1.5rem 2rem;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    article {
+      background-color: #fff;
+      padding: 20px;
+      margin: 20px;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    }
+    header h1 {
+      font-size: 3rem;
+      text-align: center;
+      letter-spacing: 2px;
+      animation: fadeIn 1.2s ease-in;
+      background: linear-gradient(45deg, #ffffff, #a0c4ff);
+      -webkit-text-fill-color: transparent;
+    }
+
+    nav {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 1.5rem;
+      flex-wrap: wrap;
+    }
+
+    nav a {
+      color: #e6f0fa;
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.8rem 1.5rem;
+      border-radius: 30px;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    nav a:hover, nav a:focus {
+      background: #4a90e2;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      bottom: 0;
+      left: 50%;
+      background: #fff;
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    nav a:hover::after {
+      width: 80%;
+    }
+
+    nav a[aria-current="page"] {
+      background: #4a90e2;
+      font-weight: 700;
+      transform: translateY(-3px);
+    }
+
+    .skip-link {
+      position: absolute;
+      top: -100px;
+      left: 1rem;
+      background: #1a365d;
+      color: #fff;
+      padding: 0.5rem 1rem;
+      z-index: 1001;
+      transition: top 0.3s;
+    }
+
+    .skip-link:focus {
+      top: 1rem;
+    }
+
+    .intro {
+      background: linear-gradient(135deg, #4a90e2, #63b3ed);
+      color: #fff;
+      text-align: center;
+      padding: 5rem 2rem;
+      border-radius: 20px;
+      margin: 2rem auto;
+      max-width: 1200px;
+      animation: slideUp 0.8s ease-out;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .intro::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle, rgba(255,255,255,0.2), transparent);
+      opacity: 0.4;
+    }
+
+    .intro h2 {
+      font-size: 2.8rem;
+      margin-bottom: 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
+
+    .intro p {
+      font-size: 1.4rem;
+      max-width: 900px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 2rem auto;
+      padding: 3rem;
+      background: #fff;
+      border-radius: 20px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+      animation: slideUp 0.8s ease-out;
+      transition: opacity 0.3s;
+    }
+
+    .container h2 {
+      color: #1a365d;
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      position: relative;
+    }
+
+    .container h2::after {
+      content: '';
+      position: absolute;
+      width: 100px;
+      height: 4px;
+      background: #4a90e2;
+      bottom: -10px;
+      left: 0;
+      border-radius: 2px;
+    }
+
+    .card-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .card {
+      background: #f9fafb;
+      padding: 2rem;
+      border-radius: 15px;
+      text-align: center;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .card:hover, .card:focus-within {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      background: linear-gradient(145deg, #ffffff, #e6f0fa);
+    }
+
+    .card img {
+      max-width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 1.5rem;
+      transition: transform 0.3s ease;
+    }
+
+    .card:hover img {
+      transform: scale(1.05);
+    }
+
+    .card h3 {
+      color: #1a365d;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+
+    .card p {
+      font-size: 1.1rem;
+      color: #4a5568;
+    }
+
+    .card button {
+      padding: 0.8rem 1.5rem;
+      background: #4a90e2;
+      color: #fff;
+      border: none;
+      border-radius: 25px;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      margin-top: 1rem;
+    }
+
+    .card button:hover {
+      background: #1a365d;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .contact-form, .whatsapp-form {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      max-width: 700px;
+      margin: 2rem auto;
+    }
+
+    .contact-form input,
+    .contact-form textarea,
+    .whatsapp-form input,
+    .whatsapp-form textarea {
+      padding: 1rem;
+      border: 1px solid #d1d5db;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    .contact-form input:focus,
+    .contact-form textarea:focus,
+    .whatsapp-form input:focus,
+    .whatsapp-form textarea:focus {
+      border-color: #4a90e2;
+      box-shadow: 0 0 10px rgba(74, 144, 226, 0.3);
+      outline: none;
+    }
+
+    .contact-form button,
+    .whatsapp-form button {
+      padding: 1rem;
+      background: #1a365d;
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.1rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .contact-form button:hover,
+    .whatsapp-form button:hover {
+      background: #4a90e2;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    }
+
+    .about-section p {
+      font-size: 1.2rem;
+      color: #4a5568;
+      margin-bottom: 1.5rem;
+    }
+
+    .about-section ul {
+      list-style: none;
+      margin: 1.5rem 0;
+      padding-left: 1.5rem;
+    }
+    h2, h3, h4 {
+    color: #007bff;
+}
+
+h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    animation: slideIn 1s ease-in-out;
+}
+   h3 {
+        font-size: 1.5rem;
+    }
+
+    .container {
+        padding: 1rem;
+    }
+
+    .about-section ul li {
+      position: relative;
+      font-size: 1.1rem;
+      color: #2d3748;
+      margin-bottom: 1rem;
+      padding-left: 2rem;
+    }
+
+    .team-card {
+        padding: 1rem;
+    }
+
+    .team-img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .about-section ul li::before {
+      content: '✔';
+      color: #4a90e2;
+      position: absolute;
+      left: 0;
+      font-size: 1.3rem;
+    }
+
+    .team-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin: 2rem 0;
+    }
+
+    .team-card {
+      background: #f9fafb;
+      padding: 2rem;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+
+    .team-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .team-card h4 {
+      color: #1a365d;
+      font-size: 1.6rem;
+      margin-bottom: 0.8rem;
+    }
+
+    .team-card p {
+      font-size: 1.1rem;
+      color: #4a5568;
+    }
+
+    footer {
+      background: #1a365d;
+      color: #e6f0fa;
+      text-align: center;
+      padding: 2.5rem;
+      margin-top: 4rem;
+      border-top: 5px solid #4a90e2;
+      position: relative;
+    }
+
+    footer p {
+      font-size: 1.1rem;
+    }
+
+    footer a {
+      color: #4a90e2;
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+
+    footer a:hover {
+      color: #a0c4ff;
+    }
+
+    .error-message {
+      color: #e53e3e;
+      font-size: 1.2rem;
+      text-align: center;
+      margin: 2rem 0;
+    }
+
+    /* Tools Section Styling */
+    .main-heading {
+      text-align: center;
+      font-size: 3rem;
+      color: #2c3e50;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      position: relative;
+    }
+
+    .main-heading::after {
+      content: '';
+      width: 100px;
+      height: 4px;
+      background: #3498db;
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      border-radius: 2px;
+    }
+
+    .intro-text {
+      text-align: center;
+      font-size: 1.2rem;
+      color: #555;
+      margin-bottom: 40px;
+      line-height: 1.6;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .tool-section {
+      background: #ffffff;
+      border-radius: 15px;
+      padding: 30px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .tool-section:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+    }
+
+    .tool-heading {
+      font-size: 2rem;
+      color: #2980b9;
+      margin-bottom: 15px;
+      position: relative;
+      padding-bottom: 10px;
+    }
+
+    .tool-heading::after {
+      content: '';
+      width: 50px;
+      height: 3px;
+      background: #e74c3c;
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      border-radius: 2px;
+    }
+
+    .tool-description {
+      font-size: 1rem;
+      color: #666;
+      line-height: 1.8;
+      margin-bottom: 20px;
+    }
+
+    .tool-button {
+      display: inline-block;
+      padding: 12px 25px;
+      background: linear-gradient(45deg, #3498db, #2980b9);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 50px;
+      font-size: 1rem;
+      font-weight: 600;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .tool-button:hover {
+      background: linear-gradient(45deg, #2980b9, #3498db);
+      transform: scale(1.05);
+    }
+
+    /* WhatsApp Link Generator Styling */
+    .whatsapp-form input,
+    .whatsapp-form textarea {
+      margin: 10px 0;
+      padding: 8px;
+      width: 100%;
+      box-sizing: border-box;
+    }
+
+    .whatsapp-form button {
+      padding: 10px 15px;
+      background-color: #25D366;
+      color: white;
+      border: none;
+      cursor: pointer;
+      border-radius: 5px;
+    }
+
+    .whatsapp-form button:hover {
+      background-color: #1ebe57;
+    }
+
+    .result {
+      margin-top: 20px;
+      text-align: center;
+    }
+
+    .result a button {
+      margin: 0 10px;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(30px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2.2rem;
+      }
+
+      nav {
+        flex-direction: column;
+        gap: 1rem;
+      }
+
+      .intro {
+        padding: 3rem 1.5rem;
+      }
+
+      .intro h2 {
+        font-size: 2rem;
+      }
+
+      .container {
+        margin: 1.5rem;
+        padding: 2rem;
+      }
+
+      .card-grid, .team-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .main-heading {
+        font-size: 2.5rem;
+      }
+
+      .tool-heading {
+        font-size: 1.8rem;
+      }
+
+      .tool-section {
+        padding: 20px;
+      }
+
+      .container {
+        padding: 10px;
+      }
+    }
+    header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        header p {
+            font-size: 1.2rem;
+        }
+
+        /* Description Section */
+        .description {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+            text-align: center;
+        }
+
+        .description h2 {
+            font-size: 1.8rem;
+            color: #007bff;
+            margin-bottom: 1rem;
+        }
+
+        .description p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #555;
+        }
+
+        /* Video Section */
+        .video-container {
+            position: relative;
+            width: 100%;
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+
+        .video-wrapper {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
+            height: 0;
+            overflow: hidden;
+        }
+
+        .video-wrapper iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* Full-Screen Button */
+        .fullscreen-btn {
+            display: inline-block;
+            margin: 1rem auto;
+            padding: 0.8rem 1.5rem;
+            background-color: #007bff;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .fullscreen-btn:hover {
+            background-color: #0056b3;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .description h2 {
+                font-size: 1.5rem;
+            }
+
+            .video-container {
+                padding: 0 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+  <a href="#main-content" class="skip-link">Skip to main content</a>
+
+  <header role="banner">
+    <h1>TERESTO</h1>
+    <nav role="navigation" aria-label="Main navigation">
+      <a href="#home" onclick="loadPage('home')" aria-current="page">Home</a>
+      <a href="#blogs" onclick="loadPage('blogs')">Blogs</a>
+      <a href="#tools" onclick="loadPage('tools')">Tools</a>
+      <a href="#education" onclick="loadPage('education')">Education</a>
+      <a href="#games" onclick="loadPage('games')">Games</a>
+      <a href="#contact" onclick="loadPage('contact')">Contact</a>
+      <a href="#about" onclick="loadPage('about')">About</a>
+    </nav>
+  </header>
+
+  <div class="intro" role="region" aria-label="Introduction">
+    <h2>Transforming Every Resource, Enabling Social Technology Online</h2>
+    <p>Welcome to TERESTO, your ultimate hub for technology, education, and entertainment.</p>
+    <p>Move into insightful tech blogs, boost productivity with innovative tools, expand your knowledge with educational resources, and unwind with interactive games.</p>
+    <p>Join our community of Teresto "Transforming every resource, Enabling social technology online" and start exploring today!</p>
+  </div>
+
+  <main id="main-content" class="container" role="main">
+    <section id="home-section" aria-labelledby="home-heading">
+      <h2 id="home-heading">Welcome to TERESTO</h2>
+      <p>TERESTO stands for <strong>Transforming Every Resource, Enabling Social Technology Online</strong>. We're here to revolutionize how you engage with technology, offering a vibrant platform packed with resources for everyone—from beginners to tech enthusiasts.</p>
+      <p>Explore our curated tech blogs to stay updated on the latest trends, use our productivity tools to streamline your work, learn new skills through engaging educational content, and have fun with interactive games. Connect with our community through comments, feedback, and more!</p>
+      <div class="card-grid">
+        <div class="card" tabindex="0" role="button" onclick="loadPage('blogs')" aria-label="Explore Tech Blogs">
+          <img src="https://via.placeholder.com/300x180?text=Tech+Blogs" alt="Tech Blogs">
+          <h3>Tech Blogs</h3>
+          <p>Discover articles on web designing essentials, coding, cybersecurity, and more tech advancements to keep you ahead in the tech world.</p>
+        </div>
+        <div class="card" tabindex="0" role="button" onclick="loadPage('tools')" aria-label="Explore Useful Tools">
+          <img src="https://via.placeholder.com/300x180?text=Tools" alt="Useful Tools">
+          <h3>Useful Tools</h3>
+          <p>From WhatsApp link generators to live code runners, boost your efficiency with our tools.</p>
+        </div>
+        <div class="card" tabindex="0" role="button" onclick="loadPage('education')" aria-label="Explore Education Resources">
+          <img src="https://via.placeholder.com/300x180?text=Education" alt="Education">
+          <h3>Learn & Grow</h3>
+          <p>Master English, dive into general knowledge, and access audio/video tutorials. Let's learn something new, and teach others too.</p>
+        </div>
+        <div class="card" tabindex="0" role="button" onclick="loadPage('games')" aria-label="Explore Games">
+          <img src="https://via.placeholder.com/300x180?text=Games" alt="Games">
+          <h3>Play & Fun</h3>
+          <p>Enjoy our games and other interactive experiences.</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer role="contentinfo">
+    <p>© 2025 TERESTO | Made with ❤️ | Kuldeep Behera and Jaskaran Singh. <a href="#contact" onclick="loadPage('contact')">Contact Us</a> | <a href="#about" onclick="loadPage('about')">About Us</a></p>
+  </footer>
+
+  <script>
+    const pages = {
+      home: {
+        content: `
+          <section id="home-section" aria-labelledby="home-heading">
+            <h2 id="home-heading">Welcome to TERESTO</h2>
+            <p>TERESTO stands for <strong>Transforming Every Resource, Enabling Social Technology Online</strong>. We're here to revolutionize how you engage with technology, offering a vibrant platform packed with resources for everyone—from beginners to tech enthusiasts.</p>
+            <p>Explore our curated tech blogs to stay updated on the latest trends, use our productivity tools to streamline your work, learn new skills through engaging educational content, and have fun with interactive games like Snakes and Ladders. Connect with our community through comments, feedback, and more!</p>
+            <div class="card-grid">
+              <div class="card" tabindex="0" role="button" onclick="loadPage('blogs')" aria-label="Explore Tech Blogs">
+                <img src="https://via.placeholder.com/300x180?text=Tech+Blogs" alt="Tech Blogs">
+                <h3>Tech Blogs</h3>
+                <p>Discover articles on web designing essentials, coding, cybersecurity, and more tech advancements to keep you ahead in the tech world.</p>
+              </div>
+              <div class="card" tabindex="0" role="button" onclick="loadPage('tools')" aria-label="Explore Useful Tools">
+                <img src="https://via.placeholder.com/300x180?text=Tools" alt="Useful Tools">
+                <h3>Useful Tools</h3>
+                <p>From WhatsApp link generators to live code runners, boost your efficiency with our tools.</p>
+              </div>
+              <div class="card" tabindex="0" role="button" onclick="loadPage('education')" aria-label="Explore Education Resources">
+                <img src="https://via.placeholder.com/300x180?text=Education" alt="Education">
+                <h3>Learn & Grow</h3>
+                <p>Master English, dive into general knowledge, and access audio/video tutorials.</p>
+              </div>
+              <div class="card" tabindex="0" role="button" onclick="loadPage('games')" aria-label="Explore Games">
+                <img src="https://via.placeholder.com/300x180?text=Games" alt="Games">
+                <h3>Play & Fun</h3>
+                <p>Enjoy our Snakes and Ladders game and other interactive experiences.</p>
+              </div>
+            </div>
+          </section>
+        `,
+        script: () => {}
+      },
+      blogs: {
+        content: `
+          <section id="blogs-section" aria-labelledby="blogs-heading">
+            <h2 id="blogs-heading">Tech Blogs</h2>
+            <p>Stay ahead with our insightful articles on the latest tech trends.</p>
+            <div class="card-grid">
+              <div class="card">
+                <img src="https://via.placeholder.com/300x180?text=Security+Blog" alt="Security Blog">
+                <h3>Clicking on Unknown Links May Lead You To</h3>
+                <p>Learn about the risks of clicking unknown links and how to stay safe online.</p>
+                <button onclick="loadPage('blog1')" aria-label="Read about Cybersecurity">Read about Cybersecurity</button>
+              </div>
+              <div class="card">
+                <img src="https://via.placeholder.com/300x180?text=Coding+Blog" alt="Coding Blog">
+                <h3>Web Designing Essentials</h3>
+                <p>Learn essential topics and basics of HTML, CSS, and JavaScript.</p>
+                <button onclick="loadPage('blog2')" aria-label="Read about Web Designing">Read about Web Designing</button>
+              </div>
+            </div>
+            <div class="comment-section" aria-label="Comments">
+              <h3>Comments</h3>
+              <form id="comment-form" onsubmit="handleComment(event)">
+                <textarea placeholder="Add your comment..." rows="4" required aria-label="Comment input"></textarea>
+                <button type="submit">Post Comment</button>
+              </form>
+              <div id="comments-list" aria-live="polite"></div>
+            </div>
+          </section>
+        `,
+        style: () => {        script: () => {}
+},
+        script: () => {
+          const form = document.getElementById('comment-form');
+          if (form) {
+            form.addEventListener('submit', handleComment);
+          }
+        }
+      },
+      blog1: {
+        content: `
+          <section id="blog1-section" aria-labelledby="blog1-heading">
+<h2>The Dangers of Clicking on Unknown Links: Staying Safe in the Digital Age</h2>
+<p>In today's interconnected world, the internet serves as a gateway to vast information and opportunities. However, alongside its benefits, lurk various threats and dangers, particularly in the form of unknown links. With cybercrime on the rise and phishing attacks becoming increasingly sophisticated, understanding the risks associated with clicking on unknown links is crucial for safeguarding personal and sensitive information. This article delves into the perils of clicking on unfamiliar links and provides actionable tips for staying safe in the digital age.</p>
+
+<h2>Introduction</h2>
+
+<p>The internet has revolutionized the way we communicate, work, and access information. However, this digital landscape is not without its pitfalls. One of the most prevalent threats users face is the temptation to click on unknown links. These links, often disguised as harmless or enticing, can lead to a variety of malicious activities, including phishing scams, malware installation, and identity theft. In this article, we explore the dangers posed by clicking on unknown links and discuss strategies for mitigating these risks.</p>
+
+<h2>Understanding the Threat Landscape</h2>
+
+<h3>Phishing Attacks:</h3>
+<p>Phishing attacks are one of the most common forms of cybercrime, wherein attackers masquerade as legitimate entities to trick users into divulging sensitive information such as login credentials, financial data, or personal details. These attacks often employ deceptive emails, messages, or websites containing malicious links that redirect users to fraudulent domains designed to mimic legitimate ones.</p>
+
+<h3>Malware Distribution:</h3>
+<p>Clicking on unknown links can also expose users to malware, malicious software designed to infiltrate and damage computers, networks, or devices. Malware payloads can include viruses, ransomware, spyware, and Trojans, which are often distributed via malicious links embedded in emails, social media posts, or websites. Once clicked, these links initiate the download and execution of malware, compromising the security and integrity of the user's system.</p>
+
+<h3>Identity Theft:</h3>
+<p>Cybercriminals may leverage unknown links as a means to perpetrate identity theft, wherein they steal personal information such as social security numbers, credit card details, or passwords to assume the victim's identity for illicit purposes. By enticing users to click on malicious links and disclose sensitive data, attackers can exploit this information for financial gain, fraud, or other nefarious activities, causing significant harm to the victim's reputation and financial well-being.</p>
+
+<h2>The Risks of Clicking on Unknown Links</h2>
+
+<h3>Financial Loss:</h3>
+<p>One of the immediate consequences of clicking on unknown links is the risk of financial loss. Phishing scams, for instance, often target banking and financial institutions, luring users into providing their account credentials under false pretenses. Once obtained, attackers can access the victim's accounts, make unauthorized transactions, or steal funds, resulting in monetary losses and financial hardship.</p>
+
+<h3>Compromised Security:</h3>
+<p>Clicking on unknown links can compromise the security of the user's device, network, or personal information. Malware infections, for example, can lead to data breaches, system hijacking, or unauthorized access to sensitive files, exposing the user to identity theft, fraud, or extortion. Moreover, compromised devices can be enlisted into botnets, used to launch further cyber attacks, or hold data hostage through ransomware encryption, exacerbating the damage and consequences.</p>
+
+<h3>Privacy Breaches:</h3>
+<p>Unknown links may also facilitate privacy breaches by exposing users to unauthorized surveillance, data collection, or tracking. Clicking on malicious links can lead to the installation of spyware or adware, which monitor the user's online activities, gather personal information, or serve targeted advertisements without consent. Consequently, users risk compromising their privacy, autonomy, and digital rights, as well as becoming vulnerable to exploitation or manipulation by malicious actors.</p>
+
+<h2>Staying Safe in the Digital Age</h2>
+
+<h3>Exercise Caution:</h3>
+<p>The first line of defense against unknown links is exercising caution and skepticism. Before clicking on any link, carefully scrutinize the source, content, and context to determine its legitimacy. Be wary of unsolicited emails, messages, or social media posts containing suspicious links, especially if they request sensitive information or prompt urgent action. When in doubt, verify the sender's identity or contact the organization directly through trusted channels to confirm the legitimacy of the link.</p>
+
+<h3>Verify URLs:</h3>
+<p>Before clicking on a link, hover your cursor over it to reveal the actual URL and examine it for inconsistencies or anomalies. Pay attention to misspellings, unusual domain names, or unfamiliar extensions, as these may indicate a malicious or fraudulent website. Additionally, look for HTTPS encryption and valid SSL certificates to ensure secure and encrypted communication with the website, reducing the risk of data interception or manipulation.</p>
+
+<h3>Use Security Software:</h3>
+<p>Deploying reputable security software such as antivirus, antimalware, and firewall solutions can provide an additional layer of protection against malicious links and online threats. Ensure that your security software is up-to-date and configured to perform regular scans, detect suspicious activities, and block malicious websites or downloads in real-time. Furthermore, consider using browser extensions or plugins that offer phishing detection, URL reputation analysis, or ad blocking to enhance your online security posture.</p>
+
+<h3>Educate Yourself:</h3>
+<p>Stay informed about the latest cybersecurity threats, trends, and best practices to empower yourself against unknown links and online risks. Educate yourself and others about common phishing tactics, red flags, and preventive measures through cybersecurity awareness programs, training modules, or online resources. By fostering a culture of cybersecurity awareness and vigilance, you can minimize the likelihood of falling victim to malicious links and protect yourself and your digital assets effectively.</p>
+
+<h3>Report Suspicious Activity:</h3>
+<p>If you encounter a suspicious link or believe you've been targeted by a phishing scam, report it to the appropriate authorities, such as your organization's IT department, the website's administrator, or cybersecurity incident response teams. By reporting suspicious activity promptly, you can help mitigate the impact of cyber threats, prevent further victimization, and contribute to the collective efforts to combat cybercrime and promote online safety.</p>
+
+<h2>Conclusion</h2>
+
+<p>In conclusion, the dangers of clicking on unknown links in the digital age are manifold, ranging from phishing scams and malware infections to identity theft and privacy breaches. By understanding the risks associated with unknown links and adopting proactive cybersecurity measures, users can safeguard themselves against these threats and minimize their exposure to online risks. Through exercising caution, verifying URLs, using security software, educating oneself, and reporting suspicious activity, individuals can navigate the digital landscape with confidence and resilience, ensuring a safer and more secure online experience for themselves and others. Remember, when in doubt, think before you click.</p>
+            <p>This article explores the dangers of clicking unknown links, including phishing attacks, malware, and data theft. Learn best practices to stay safe online.</p>
+            <p><a href="#blogs" onclick="loadPage('blogs')">Back to Blogs</a></p>
+          </section>
+        `,
+        script: () => {}
+      },
+      blog2: {
+        content: `
+          <section id="blog2-section" aria-labelledby="blog2-heading">
+            <h2 id="blog2-heading">Web Designing Essentials</h2>
+            <p>Dive into the basics of HTML, CSS, and JavaScript to create stunning websites. This guide covers responsive design, accessibility, and modern frameworks.</p>
+            <iframe src="https://cerebrascoder.com/p/485616" width="100%" height="600px" style="border:none;"></iframe>
+            <p><a href="#blogs" onclick="loadPage('blogs')">Back to Blogs</a></p>
+          </section>
+        `,
+        script: () => {}
+      },
+      tools: {
+        content: `
+          <section id="tools-section" aria-labelledby="tools-heading">
+            <h2 class="main-heading" id="tools-heading">Useful Tools</h2>
+            <p class="intro-text">We provide essential, useful tools such as WhatsApp Chat Link Generator, Text Analyser, and Live Code Studio, currently available to enhance your productivity and creativity.</p>
+            <div class="card-grid">
+              <div class="card">
+                <div class="tool-section">
+                  <h3 class="tool-heading">WhatsApp Chat Link Generator</h3>
+                  <p class="tool-description">Contact anyone without saving their number. This tool allows you to enter anyone's WhatsApp number along with their country code. You can also include a custom message. Generate a shareable link that enables users to contact you or your company with the custom message you provide.</p>
+                  <a href="#whatsapp" onclick="loadPage('whatsapp')" class="tool-button" aria-label="Go to WhatsApp Link Generator">Go to WhatsApp Link Generator</a>
+                </div>
+              </div>
+              <div class="card">
+                <div class="tool-section">
+                  <h3 class="tool-heading">Text Analyser</h3>
+                  <p class="tool-description">This tool allows you to enter any text and get a detailed analysis, including the number of characters, words, special characters, spaces, lines, paragraphs, sentences, and more.</p>
+                  <a href="#textanalyser" onclick="loadPage('textanalyser')" class="tool-button" aria-label="Go to Text Analyser">Go to Text Analyser</a>
+                </div>
+              </div>
+              <div class="card">
+                <div class="tool-section">
+                  <h3 class="tool-heading">Live Code Studio</h3>
+                  <p class="tool-description">Write and test HTML, CSS, and JS code in real-time.</p>
+                  <a href="#livecoderunner" onclick="loadPage('livecoderunner')" class="tool-button" aria-label="Go to Live Code Studio">Go to Live Code Studio</a>
+                </div>
+              </div>
+            </div>
+          </section>
+        `,
+        script: () => {}
+      },
+      whatsapp: {
+        content: `
+          <section id="whatsapp-section" aria-labelledby="whatsapp-heading">
+            <h2 id="whatsapp-heading">WhatsApp Chat Link Generator</h2>
+            <p>Create instant chat links for WhatsApp with one click.</p>
+            <form id="whatsapp-form" class="whatsapp-form">
+              <label for="countryCode">Country Code:</label>
+              <input type="text" id="countryCode" placeholder="e.g., +1 for USA" required>
+              <label for="phoneNumber">WhatsApp Number:</label>
+              <input type="text" id="phoneNumber" placeholder="Enter phone number" required>
+              <label for="customMessage">Custom Message (optional):</label>
+              <input type="text" id="customMessage" placeholder="Enter custom message">
+              <button type="submit">Generate Link</button>
+            </form>
+            <div id="result" class="result"></div>
+          </section>
+        `,
+        script: () => {
+          const form = document.getElementById('whatsapp-form');
+          if (form) {
+            form.addEventListener('submit', (e) => {
+              e.preventDefault();
+              const countryCode = document.getElementById('countryCode').value.trim().replace(/\+/g, '');
+              const phoneNumber = document.getElementById('phoneNumber').value.trim();
+              const customMessage = encodeURIComponent(document.getElementById('customMessage').value.trim());
+              if (!countryCode || !phoneNumber) {
+                alert('Country code and WhatsApp number are required!');
+                return;
+              }
+              let url = `https://wa.me/${countryCode}${phoneNumber}`;
+              if (customMessage) {
+                url += `?text=${customMessage}`;
+              }
+              document.getElementById('result').innerHTML = `
+                <a href="${url}" target="_blank">
+                  <button>Open Chat</button>
+                </a>
+                <button onclick="copyLink('${url}')">Copy Link</button>
+              `;
+            });
+          }
+        }
+      },
+      textanalyser: {
+        content: `
+          <section id="textanalyser-section" aria-labelledby="textanalyser-heading">
+            <h2 id="textanalyser-heading">Text Analyser</h2>
+            <p>Analyze your text to get detailed statistics.</p>
+            <form id="textanalyser-form" class="whatsapp-form">
+              <label for="text-input">Enter Text:</label>
+              <textarea id="text-input" rows="6" placeholder="Type or paste your text here" required></textarea>
+              <button type="submit">Analyze Text</button>
+            </form>
+            <div id="analysis-result"></div>
+          </section>
+        `,
+        script: () => {
+          const form = document.getElementById('textanalyser-form');
+          if (form) {
+            form.addEventListener('submit', (e) => {
+              e.preventDefault();
+              const text = document.getElementById('text-input').value;
+              const result = document.getElementById('analysis-result');
+              const charCount = text.length;
+              const wordCount = text.trim().split(/\s+/).filter(w => w).length;
+              const sentenceCount = text.split(/[.!?]+/).filter(s => s.trim()).length;
+              const paragraphCount = text.split(/\n\s*\n/).filter(p => p.trim()).length;
+              const spaceCount = (text.match(/\s/g) || []).length;
+              const specialCharCount = (text.match(/[^a-zA-Z0-9\s]/g) || []).length;
+              result.innerHTML = `
+                <p>Characters: ${charCount}</p>
+                <p>Words: ${wordCount}</p>
+                <p>Sentences: ${sentenceCount}</p>
+                <p>Paragraphs: ${paragraphCount}</p>
+                <p>Spaces: ${spaceCount}</p>
+                <p>Special Characters: ${specialCharCount}</p>
+              `;
+            });
+          }
+        }
+      },
+      livecoderunner: {
+        content: `
+          <section id="livecoderunner-section" aria-labelledby="livecoderunner-heading">
+            <h2 id="livecoderunner-heading">Live Code Studio</h2>
+            <p>Write and test HTML, CSS, and JS code in real-time.</p>
+            <p>Coming soon! This feature is under development.</p>
+          </section>
+        `,
+        script: () => {}
+      },
+      education: {
+        content: `
+          <section id="education-section" aria-labelledby="education-heading">
+            <h2 id="education-heading">Learn Something New</h2>
+            <p>Expand your skills with our educational resources.</p>
+            <div class="card-grid">
+              <div class="card">
+                <img src="https://via.placeholder.com/300x180?text=English+Learning" alt="Learn English">
+                <h3>Learn English Online</h3>
+                <p>Access video lessons to improve your English skills.</p>
+                <button onclick="loadPage('englishlearning')" aria-label="Go to Learn English">Go to Learn English</button>
+              </div>
+              <div class="card">
+                <img src="https://via.placeholder.com/300x180?text=General+Knowledge" alt="General Knowledge">
+                <h3>General Knowledge</h3>
+                <p>Watch videos to boost your knowledge on various topics.</p>
+                <button onclick="loadPage('generalknowledge')" aria-label="Go to General Knowledge">Go to General Knowledge</button>
+              </div>
+            </div>
+          </section>
+        `,
+        script: () => {}
+      },
+      englishlearning: {
+        content: `
+          <section id="englishlearning-section" aria-labelledby="englishlearning-heading">
+            <h2 id="englishlearning-heading">Learn English Online</h2>
+            <p>Access Video/audio lessons and tutorials to improve your English skills.</p>
+        <p>Master English with engaging video lessons designed for all levels!</p>
+    
+    <section class="description">
+        <h2>Welcome to Your English Learning Journey</h2>
+        <p>
+            Dive into carefully curated video playlist to improve your English speaking, listening, and comprehension skills. 
+            Whether you're a beginner or an advanced learner, these lessons are crafted to make learning fun, interactive, and effective.
+        </p>
+    </section>
+
+    <section class="video-container">
+        <div class="video-wrapper">
+            <iframe 
+                id="youtube-player"
+                src="https://www.youtube.com/embed/xTLK0iHLxFs?list=PLsXdBvuJ5ox7U8HipGaQoS95fFcIhKRRS&enablejsapi=1" 
+                allowfullscreen>
+            </iframe>
+        </div>
+        <div style="text-align: center;">
+            <button class="fullscreen-btn" onclick="toggleFullScreen()">Toggle Full Screen</button>
+        </div>
+    </section>
+
+<p><a href="#education" onclick="loadPage('education')">Back to Education</a></p>
+          </section>
+        `,
+        script: () => {// Load YouTube IFrame API
+        var tag = document.createElement('script');
+        tag.src = "https://www.youtube.com/iframe_api";
+        var firstScriptTag = document.getElementsByTagName('script')[0];
+        firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+
+        var player;
+        function onYouTubeIframeAPIReady() {
+            player = new YT.Player('youtube-player', {
+                events: {
+                    'onReady': onPlayerReady
+                }
+            });
+        }
+
+        function onPlayerReady(event) {
+            // Player is ready
+        }
+
+        // Full-Screen Toggle Function
+        function toggleFullScreen() {
+            var iframe = document.getElementById('youtube-player');
+            if (!document.fullscreenElement) {
+                if (iframe.requestFullscreen) {
+                    iframe.requestFullscreen();
+                } else if (iframe.mozRequestFullScreen) { /* Firefox */
+                    iframe.mozRequestFullScreen();
+                } else if (iframe.webkitRequestFullscreen) { /* Chrome, Safari & Opera */
+                    iframe.webkitRequestFullscreen();
+                } else if (iframe.msRequestFullscreen) { /* IE/Edge */
+                    iframe.msRequestFullscreen();
+                }
+            } else {
+                if (document.exitFullscreen) {
+                    document.exitFullscreen();
+                }
+            }
+        }
+    }
+      },
+      generalknowledge: {
+        content: `
+          <section id="generalknowledge-section" aria-labelledby="generalknowledge-heading">
+            <h2 id="generalknowledge-heading">General Knowledge</h2>
+            <p>Watch videos and read articles to boost your knowledge on various topics.</p>
+            <p>Coming soon! Stay tuned for our general knowledge content.</p>
+            <p><a href="#education" onclick="loadPage('education')">Back to Education</a></p>
+          </section>
+        `,
+        script: () => {}
+      },
+      games: {
+        content: `
+          <section id="games-section" aria-labelledby="games-heading">
+            <h2 id="games-heading">Games</h2>
+            <p>We are currently offering one powerful game called Snakes and Ladders.</p>
+            <div class="card-grid">
+              <div class="card">
+                <img src="https://via.placeholder.com/300x180?text=Snakes+Ladders" alt="Snakes and Ladders">
+                <h3>Snakes and Ladders</h3>
+                <p>Experience the classic Snakes and Ladders game with a modern twist! Roll the dice, climb ladders, avoid snakes, and race to reach position 100.</p>
+                <button onclick="window.open('n.html', '')" aria-label="Go to Snakes and Ladders">Go to Snakes and Ladders</button>
+              </div>
+            </div>
+          </section>
+        `,
+        script: () => {}
+      },
+      contact: {
+        content: `
+          <section id="contact-section" aria-labelledby="contact-heading">
+            <h2 id="contact-heading">Contact Us</h2>
+            <p>We'd love to hear from you! Fill out the form below to get in touch.</p>
+            <form id="contact-form" class="contact-form">
+              <label for="name">Name:</label>
+              <input type="text" id="name" placeholder="Your Name" required>
+              <label for="email">Email:</label>
+              <input type="email" id="email" placeholder="Your Email" required>
+              <label for="message">Message:</label>
+              <textarea id="message" rows="5" placeholder="Your Message" required></textarea>
+              <button type="submit">Send Message</button>
+            </form>
+          </section>
+        `,
+        script: () => {
+          const form = document.getElementById('contact-form');
+          if (form) {
+            form.addEventListener('submit', (e) => {
+              e.preventDefault();
+              const name = document.getElementById('name').value.trim();
+              const email = document.getElementById('email').value.trim();
+              const message = document.getElementById('message').value.trim();
+              if (name && email && message) {
+                alert('Thank you for your message! We will get back to you soon.');
+                form.reset();
+              } else {
+                alert('Please fill out all fields.');
+              }
+            });
+          }
+        }
+      },
+      about: {
+        content: `
+          <section id="about-section" aria-labelledby="about-heading" class="about-section">
+            <h2 id="about-heading">About TERESTO</h2>
+           <section class="fade-in">
+            <h2 id="about-heading">About TERESTO</h2>
+            <p><strong>TERESTO</strong> – <em>Transforming Every Resource, Enabling Social Technology Online</em> – is your one-stop platform for a world of digital exploration. Whether you're a tech enthusiast, a curious learner, or just looking for some fun, TERESTO brings together blogs, tools, educational resources, and games in a seamless, user-friendly experience.</p>
+            <p>Born as an academic mini-project for our Web Designing course, TERESTO reflects our passion for innovation, accessibility, and the limitless possibilities of the internet.</p>
+        </section>
+        <section class="fade-in">
+            <h3>🎯 Our Mission</h3>
+            <p>We’re here to empower everyone with a modern, interactive, and resourceful platform. TERESTO is designed to inspire and engage through:</p>
+            <ul>
+                <li>Interactive blog articles on trending technology topics</li>
+                <li>Handy web tools like WhatsApp Chat Link Generator and Text Analyzers</li>
+                <li>Educational resources on English learning and General Knowledge</li>
+                <li>Classic games like Snake & Ladders, built with engaging visuals and sound</li>
+                <li>A clean, responsive design accessible across all devices</li>
+            </ul>
+        </section>
+        <section class="fade-in">
+            <h3>👨‍💻 Meet the Team</h3>
+            <div class="team-grid">
+                <div class="team-card">
+                    <img src="Kuldeep.jpg" alt="Kuldeep Behera" class="team-img">
+                    <h4>Kuldeep</h4>
+                    <p><em>Developer & Architect</em></p>
+                    <p>Kuldeep brought TERESTO to life by leading the technical development, ensuring a smooth and functional experience. His contributions include:</p>
+                    <ul>
+                        <li>Writing HTML, CSS, and JavaScript code</li>
+                        <li>Integrating external APIs and media files</li>
+                        <li>Building navigation, tools, blog structure, and game mechanics</li>
+                        <li>Ensuring responsiveness and performance</li>
+                    </ul>
+                </div>
+                <div class="team-card">
+                    <img src="Jaskaran.jpg" alt="Jaskaran Singh" class="team-img">
+                    <h4>Jaskaran Singh</h4>
+                    <p><em>Designer, Logic Provider & Visual Enhancer</em></p>
+                    <p>Jaskaran crafted an engaging and intuitive user experience with a keen eye for design. His work includes:</p>
+                    <ul>
+                        <li>Creating visually appealing layouts using CSS</li>
+                        <li>Adding relevant images and icons for each section</li>
+                        <li>Styling for a modern, clean look</li>
+                        <li>Enhancing accessibility and responsiveness</li>
+                        <li>Analyzing user needs to provide essential, engaging ideas</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="fade-in">
+            <h3>📌 Purpose & Future Vision</h3>
+            <p>While TERESTO was created for educational purposes and academic evaluation, our vision extends far beyond the classroom. We see TERESTO as a foundation for something greater, with plans to:</p>
+            <ul>
+                <li>Expand with backend functionality</li>
+                <li>Add user login features and personalized dashboards</li>
+                <li>Host community-driven blogs, tools, and forums</li>
+                <li>Integrate real-time content updates</li>
+            </ul>
+            <p>At its core, TERESTO is about continuous learning and digital empowerment. We’re excited to build a platform that makes technology accessible, innovative, and meaningful for all.</p>
+            <p><strong>Thank you for exploring TERESTO – where technology meets innovation, simplicity, and purpose.</strong></p>
+        </section>
+          </section>
+        `,
+        script: () => {    document.addEventListener('DOMContentLoaded', () => {
+    const fadeIns = document.querySelectorAll('.fade-in');
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+                observer.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.1 });
+
+    fadeIns.forEach(section => observer.observe(section));
+});
+    }
+      }
+    };
+
+    function loadPage(pageId) {
+      // Update navigation state
+      document.querySelectorAll('nav a').forEach(link => {
+        link.removeAttribute('aria-current');
+        if (link.getAttribute('href') === `#${pageId}`) {
+          link.setAttribute('aria-current', 'page');
+        }
+      });
+
+      const mainContent = document.getElementById('main-content');
+      mainContent.style.opacity = '0';
+
+      const page = pages[pageId] || {
+        content: `
+          <section id="${pageId}-section" aria-labelledby="${pageId}-heading">
+            <h2 id="${pageId}-heading">${pageId.charAt(0).toUpperCase() + pageId.slice(1)}</h2>
+            <p class="error-message">Error: Content not available.</p>
+          </section>
+        `,
+        script: () => {}
+      };
+
+      mainContent.innerHTML = page.content;
+      setTimeout(() => {
+        mainContent.style.opacity = '1';
+        page.script();
+      }, 100);
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function handleComment(event) {
+      event.preventDefault();
+      const textarea = event.target.querySelector('textarea');
+      const commentsList = document.getElementById('comments-list');
+      const comment = document.createElement('p');
+      comment.textContent = textarea.value.trim();
+      if (comment.textContent) {
+        commentsList.appendChild(comment);
+        textarea.value = '';
+        alert('Comment posted!');
+      } else {
+        alert('Please enter a comment.');
+      }
+    }
+
+    function copyLink(url) {
+      navigator.clipboard.writeText(url).then(() => {
+        alert('Link copied to clipboard!');
+      }).catch(err => {
+        console.error('Error copying link: ', err);
+        alert('Failed to copy link.');
+      });
+    }
+
+    // Initialize home page
+    document.addEventListener('DOMContentLoaded', () => {
+      loadPage('home');
+    });
+  </script>
+</body>
+</html>
