@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>General Knowledge Hub</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #6e48aa, #9d50bb);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        section {
+            margin-bottom: 60px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        h2 {
+            font-size: 2.2em;
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+            position: relative;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        h2::after {
+            content: '';
+            width: 120px;
+            height: 5px;
+            background: linear-gradient(to right, #ff6b6b, #4ecdc4);
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .language-toggle {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+
+        .lang-btn {
+            background: #3498db;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.3s ease;
+        }
+
+        .lang-btn:hover {
+            background: #2980b9;
+            transform: scale(1.05);
+        }
+
+        .lang-btn.active {
+            background: #ff6b6b;
+        }
+
+        .gk-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .gk-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeIn 0.5s ease forwards;
+            animation-delay: calc(0.1s * var(--index));
+        }
+
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .gk-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            background: linear-gradient(135deg, #f7f7f7, #e0eafc);
+        }
+
+        .gk-card h3 {
+            font-size: 1.3em;
+            color: #ff6b6b;
+            margin-bottom: 10px;
+        }
+
+        .gk-card p {
+            font-size: 1em;
+            color: #555;
+        }
+
+        .gk-card .answer {
+            max-height: 0;
+            overflow: hidden;
+            font-weight: 600;
+            color: #2c3e50;
+            transition: max-height 0.3s ease;
+        }
+
+        .gk-card.active .answer {
+            max-height: 100px;
+            padding-top: 10px;
+        }
+
+        @media (max-width: 600px) {
+            h2 {
+                font-size: 1.8em;
+            }
+
+            .gk-card h3 {
+                font-size: 1.1em;
+            }
+
+            .gk-card p {
+                font-size: 0.9em;
+            }
+
+            .lang-btn {
+                padding: 8px 16px;
+                font-size: 0.9em;
+            }
+
+            section {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <section id="core-gk">
+            <h2>Essential Knowledge</h2>
+            <div class="language-toggle">
+                <button class="lang-btn active" data-lang="en">English</button>
+                <button class="lang-btn" data-lang="hi">Hindi</button>
+            </div>
+            <div class="gk-container" id="core-gk-container"></div>
+        </section>
+
+        <section id="current-affairs">
+            <h2>Key Events of 2025</h2>
+            <div class="language-toggle">
+                <button class="lang-btn active" data-lang="en">English</button>
+                <button class="lang-btn" data-lang="hi">Hindi</button>
+            </div>
+            <div class="gk-container" id="current-affairs-container"></div>
+        </section>
+    </main>
+    <script>
+        // Core General Knowledge Questions (10)
+        const coreGK = [
+            {
+                question_en: "What is the smallest unit of digital information?",
+                question_hi: "डिजिटल जानकारी की सबसे छोटी इकाई क्या है?",
+                answer_en: "Bit",
+                answer_hi: "बिट"
+            },
+            {
+                question_en: "Who was awarded the Nobel Peace Prize in 1964 for civil rights work?",
+                question_hi: "1964 में नागरिक अधिकार कार्य के लिए नोबेल शांति पुरस्कार किसे मिला?",
+                answer_en: "Martin Luther King Jr.",
+                answer_hi: "मार्टिन लूथर किंग जूनियर"
+            },
+            {
+                question_en: "Which ancient wonder was located in Alexandria, Egypt?",
+                question_hi: "कौन सा प्राचीन आश्चर्य अलेक्जेंड्रिया, मिस्र में स्थित था?",
+                answer_en: "Lighthouse of Alexandria",
+                answer_hi: "अलेक्जेंड्रिया का प्रकाशस्तंभ"
+            },
+            {
+                question_en: "What gas, discovered on the sun before Earth, is the second most abundant element?",
+                question_hi: "पृथ्वी से पहले सूर्य पर खोजा गया कौन सा गैस दूसरा सबसे प्रचुर तत्व है?",
+                answer_en: "Helium",
+                answer_hi: "हीलियम"
+            },
+            {
+                question_en: "Who wrote the epic poem 'Mahabharata'?",
+                question_hi: "'महाभारत' महाकाव्य के रचयिता कौन थे?",
+                answer_en: "Sage Vyasa",
+                answer_hi: "ऋषि व्यास"
+            },
+            {
+                question_en: "What is the currency of Japan?",
+                question_hi: "जापान की मुद्रा क्या है?",
+                answer_en: "Yen",
+                answer_hi: "येन"
+            },
+            {
+                question_en: "Which scientist formulated the theory of relativity?",
+                question_hi: "सापेक्षता के सिद्धांत का प्रतिपादन किस वैज्ञानिक ने किया?",
+                answer_en: "Albert Einstein",
+                answer_hi: "अल्बर्ट आइंस्टीन"
+            },
+            {
+                question_en: "Which river is known as the 'Sorrow of Bengal'?",
+                question_hi: "कौन सी नदी 'बंगाल का दुख' के नाम से जानी जाती है?",
+                answer_en: "Damodar River",
+                answer_hi: "दामोदर नदी"
+            },
+            {
+                question_en: "What is the chemical symbol for Gold?",
+                question_hi: "सोने का रासायनिक प्रतीक क्या है?",
+                answer_en: "Au",
+                answer_hi: "Au"
+            },
+            {
+                question_en: "Which country hosted the first modern Olympics in 1896?",
+                question_hi: "1896 में पहले आधुनिक ओलंपिक की मेजबानी किस देश ने की?",
+                answer_en: "Greece",
+                answer_hi: "यूनान"
+            }
+        ];
+
+        // Current Affairs Facts for 2025 (20)
+        const currentAffairs = [
+            {
+                fact_en: "Mark Carney becomes Canada's Prime Minister on March 14, 2025, after Liberal Party leadership win.",
+                fact_hi: "मार्क कार्नी 14 मार्च 2025 को लिबरल पार्टी नेतृत्व जीतने के बाद कनाडा के प्रधानमंत्री बने।"
+            },
+            {
+                fact_en: "A 6.8 magnitude earthquake hits Tibet on January 7, 2025, killing at least 95 people.",
+                fact_hi: "7 जनवरी 2025 को तिब्बत में 6.8 तीव्रता का भूकंप आया, जिसमें कम से कम 95 लोग मारे गए।"
+            },
+            {
+                fact_en: "SpaceX launches Fram2 mission on April 1, 2025, flying private astronauts over Earth's poles.",
+                fact_hi: "स्पेसएक्स ने 1 अप्रैल 2025 को फ्राम2 मिशन लॉन्च किया, जो निजी अंतरिक्ष यात्रियों को पृथ्वी के ध्रुवों के ऊपर ले गया।"
+            },
+            {
+                fact_en: "South Korean President Yoon Suk Yeol is impeached on March 27, 2025.",
+                fact_hi: "दक्षिण कोरिया के राष्ट्रपति यून सुक योल का 27 मार्च 2025 को महाभियोग हुआ।"
+            },
+            {
+                fact_en: "Israel and Hamas agree to a ceasefire on January 20, 2025, ending Gaza conflict.",
+                fact_hi: "इज़राइल और हमास ने 20 जनवरी 2025 को गाजा संघर्ष को समाप्त करने के लिए युद्धविराम पर सहमति जताई।"
+            },
+            {
+                fact_en: "China imposes tariffs on $100 billion of US goods starting January 21, 2025.",
+                fact_hi: "चीन ने 21 जनवरी 2025 से 100 अरब डॉलर के अमेरिकी सामानों पर टैरिफ लगाया।"
+            },
+            {
+                fact_en: "Scientists announce successful cloning of thylacine DNA in Australia, January 2025.",
+                fact_hi: "वैज्ञानिकों ने जनवरी 2025 में ऑस्ट्रेलिया में थायलासीन डीएनए के सफल क्लोनिंग की घोषणा की।"
+            },
+            {
+                fact_en: "Turkey sees massive protests over Erdogan's policies in February 2025.",
+                fact_hi: "तुर्की में फरवरी 2025 में एर्दोगन की नीतियों के खिलाफ बड़े पैमाने पर विरोध प्रदर्शन हुए।"
+            },
+            {
+                fact_en: "Global warming exceeds 1.5°C limit in 2025, per climate reports.",
+                fact_hi: "2025 में जलवायु रिपोर्टों के अनुसार वैश्विक तापमान 1.5 डिग्री सेल्सियस की सीमा को पार कर गया।"
+            },
+            {
+                fact_en: "Kirsty Coventry elected IOC president on March 18, 2025, first woman in the role.",
+                fact_hi: "कर्स्टी कोवेंट्री 18 मार्च 2025 को IOC अध्यक्ष चुनी गईं, यह भूमिका निभाने वाली पहली महिला।"
+            },
+            {
+                fact_en: "US-Russia talks resume on nuclear arms control in Geneva, February 2025.",
+                fact_hi: "अमेरिका-रूस ने फरवरी 2025 में जिनेवा में परमाणु हथियार नियंत्रण पर बातचीत फिर शुरू की।"
+            },
+            {
+                fact_en: "California wildfires in March 2025 destroy over 500,000 acres.",
+                fact_hi: "मार्च 2025 में कैलिफोर्निया की जंगल की आग ने 500,000 एकड़ से अधिक क्षेत्र को नष्ट किया।"
+            },
+            {
+                fact_en: "Thutmose II's tomb discovered in Egypt's Valley of the Kings, January 2025.",
+                fact_hi: "जनवरी 2025 में मिस्र की वैली ऑफ द किंग्स में थुटमोस II का मकबरा खोजा गया।"
+            },
+            {
+                fact_en: "Blue Ghost firefly rediscovered in North Carolina, February 2025.",
+                fact_hi: "फरवरी 2025 में उत्तरी कैरोलिना में ब्लू घोस्ट फायरफ्लाई की फिर से खोज हुई।"
+            },
+            {
+                fact_en: "Trump imposes new tariffs on Chinese goods starting February 1, 2025.",
+                fact_hi: "ट्रम्प ने 1 फरवरी 2025 से चीनी सामानों पर नए टैरिफ लगाए।"
+            },
+            {
+                fact_en: "Indonesia joins BRICS alliance at summit in January 2025.",
+                fact_hi: "इंडोनेशिया ने जनवरी 2025 में ब्रिक्स शिखर सम्मेलन में गठबंधन में शामिल हुआ।"
+            },
+            {
+                fact_en: "Myanmar earthquake of 7.0 magnitude strikes on February 15, 2025.",
+                fact_hi: "15 फरवरी 2025 को म्यांमार में 7.0 तीव्रता का भूकंप आया।"
+            },
+            {
+                fact_en: "Syrian government cracks down on dissent, sparking unrest in March 2025.",
+                fact_hi: "सीरियाई सरकार ने मार्च 2025 में असंतोष पर कार्रवाई की, जिससे अशांति भड़क उठी।"
+            },
+            {
+                fact_en: "South Korea declares emergency over forest fires in April 2025.",
+                fact_hi: "दक्षिण कोरिया ने अप्रैल 2025 में जंगल की आग पर आपातकाल घोषित किया।"
+            },
+            {
+                fact_en: "Dire wolf DNA sequenced successfully in Canada, March 2025.",
+                fact_hi: "मार्च 2025 में कनाडा में डायर वुल्फ डीएनए का सफलतापूर्वक अनुक्रमण किया गया।"
+            }
+        ];
+
+        // Populate Core GK
+        function populateCoreGK(language = 'en') {
+            const container = document.getElementById('core-gk-container');
+            container.innerHTML = '';
+            coreGK.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.classList.add('gk-card');
+                card.style.setProperty('--index', index);
+                card.innerHTML = `
+                    <h3>${language === 'en' ? item.question_en : item.question_hi}</h3>
+                    <p class="answer">${language === 'en' ? item.answer_en : item.answer_hi}</p>
+                `;
+                card.addEventListener('click', () => {
+                    card.classList.toggle('active');
+                });
+                container.appendChild(card);
+            });
+        }
+
+        // Populate Current Affairs
+        function populateCurrentAffairs(language = 'en') {
+            const container = document.getElementById('current-affairs-container');
+            container.innerHTML = '';
+            currentAffairs.forEach((item, index) => {
+                const card = document.createElement('div');
+                card.classList.add('gk-card');
+                card.style.setProperty('--index', index);
+                card.innerHTML = `
+                    <h3>Event ${index + 1}</h3>
+                    <p>${language === 'en' ? item.fact_en : item.fact_hi}</p>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Setup Language Toggles
+        function setupLanguageToggles() {
+            document.querySelectorAll('.language-toggle').forEach(toggle => {
+                const section = toggle.closest('section');
+                const containerId = section.querySelector('.gk-container').id;
+                toggle.querySelectorAll('.lang-btn').forEach(button => {
+                    button.addEventListener('click', () => {
+                        toggle.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+                        button.classList.add('active');
+                        if (containerId === 'core-gk-container') {
+                            populateCoreGK(button.dataset.lang);
+                        } else {
+                            populateCurrentAffairs(button.dataset.lang);
+                        }
+                    });
+                });
+            });
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            populateCoreGK('en');
+            populateCurrentAffairs('en');
+            setupLanguageToggles();
+        });
+    </script>
+</body>
+</html>
