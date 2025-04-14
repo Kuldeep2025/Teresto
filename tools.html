@@ -1,0 +1,173 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tools</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .main-heading {
+            text-align: center;
+            font-size: 3rem;
+            color: #2c3e50;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            position: relative;
+        }
+
+        .main-heading::after {
+            content: '';
+            width: 100px;
+            height: 4px;
+            background: #3498db;
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+
+        .intro {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #555;
+            margin-bottom: 40px;
+            line-height: 1.6;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .tool-section {
+            background: #ffffff;
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .tool-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .tool-heading {
+            font-size: 2rem;
+            color: #2980b9;
+            margin-bottom: 15px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .tool-heading::after {
+            content: '';
+            width: 50px;
+            height: 3px;
+            background: #e74c3c;
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            border-radius: 2px;
+        }
+
+        .tool-description {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.8;
+            margin-bottom: 20px;
+        }
+
+        .tool-button {
+            display: inline-block;
+            padding: 12px 25px;
+            background: linear-gradient(45deg, #3498db, #2980b9);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+
+        .tool-button:hover {
+            background: linear-gradient(45deg, #2980b9, #3498db);
+            transform: scale(1.05);
+        }
+
+        @media (max-width: 768px) {
+            .main-heading {
+                font-size: 2.5rem;
+            }
+
+            .tool-heading {
+                font-size: 1.8rem;
+            }
+
+            .tool-section {
+                padding: 20px;
+            }
+
+            .container {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="main-heading">Tools</h1>
+        <p class="intro">
+            We provide essential, useful tools such as WhatsApp Chat Link Generator, Text Analyser, and Live Code Studio, currently available to enhance your productivity and creativity.
+        </p>
+
+        <!-- WhatsApp Chat Link Generator -->
+        <div class="tool-section">
+            <h2 class="tool-heading">WhatsApp Chat Link Generator</h2>
+            <p class="tool-description">
+                Contact anyone without saving their number. This tool allows you to enter anyone's WhatsApp number along with their country code. You can also include a custom message. Generate a shareable link that enables users to contact you or your company with the custom message you provide. The tool includes a copy button to copy the chat URL and an "Open Chat" button to redirect directly to the WhatsApp chat of the entered number.
+            </p>
+            <a href="chatlink.html" class="tool-button">Go to WhatsApp Chat Link Generator</a>
+        </div>
+
+        <!-- Text Analyser -->
+        <div class="tool-section">
+            <h3 class="tool-heading">Text Analyser</h3>
+            <p class="tool-description">
+                This tool allows you to enter any text and get a detailed analysis, including the number of characters, words, special characters, spaces, lines, paragraphs, sentences, and more. Gain comprehensive insights into your text with ease.
+            </p>
+            <a href="textanalyser.html" class="tool-button">Go to Text Analyser</a>
+        </div>
+
+        <!-- Live Code Studio -->
+        <div class="tool-section">
+            <h2 class="tool-heading">Live Code Studio</h2>
+            <p class="tool-description">
+                Test your HTML, CSS, and JavaScript code directly in the browser to see if it works as intended. Preview how your webpage or website looks in real-time. You can also import any HTML file to run on our compiler or export your code as an HTML file to your device's storage.
+            </p>
+            <a href="livecodestudio.html" class="tool-button">Go to Live Code Studio</a>
+        </div>
+    </div>
+</body>
+</html>

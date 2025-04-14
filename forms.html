@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Form</title>
+<script>
+function validateForm() {
+let valid = true;
+let errorMessage;
+
+// Validate Full Name
+let fullname = document.forms["userForm"]["fullname"].value;
+if (fullname === "") {
+errorMessage = "Full Name is required.";
+document.getElementById('fullnameError').innerText = errorMessage;
+valid = false;
+} else {
+document.getElementById('fullnameError').innerText = '';
+}
+
+// Validate Email
+let email = document.forms["userForm"]["email"].value;
+if (email === "") {
+errorMessage = "Email is required.";
+document.getElementById('emailError').innerText = errorMessage;
+valid = false;
+} else {
+document.getElementById('emailError').innerText = '';
+}
+
+// Validate Phone Number
+let phone = document.forms["userForm"]["phone"].value;
+if (phone == "") {
+errorMessage = "Phone Number is required.";
+document.getElementById('phoneError').innerText = errorMessage;
+valid = false;
+} else {
+document.getElementById('phoneError').innerText = '';
+}
+
+// Validate Age
+let age = document.forms["userForm"]["age"].value;
+if (age === "" || isNaN(age) || age < 1) {
+errorMessage = "Valid Age is required.";
+document.getElementById('ageError').innerText = errorMessage;
+valid = false;
+} else {
+document.getElementById('ageError').innerText = '';
+}
+
+// Validate Gender
+let gender = document.forms["userForm"]["gender"].value;
+if (gender === "") {
+errorMessage = "Gender is required.";
+document.getElementById('genderError').innerText = errorMessage;
+valid = false;
+} else {
+document.getElementById('genderError').innerText = '';
+}
+
+  // Validate Feedback
+  let feedback = document.forms["userForm"]["feedback"].value;
+  if (feedback === "") {
+  errorMessage = "Feedback is required.";
+  document.getElementById('feedbackError').innerText = errorMessage;
+  valid = false;
+  } else if (feedback.length > 500) {
+  errorMessage = "Feedback must be 500 characters or less.";
+  document.getElementById('feedbackError').innerText = errorMessage;
+  valid = false;
+  } else {
+  document.getElementById('feedbackError').innerText = '';
+  }
+ 
+
+return valid;
+}
+
+function onSubmit(event) {
+if (!validateForm()) {
+event.preventDefault(); // Prevent form submission if not valid
+alert("Please correct the errors in the form.");
+}
+}
+</script>
+</head>
+<body>
+<h2>User contact Form</h2>
+<form name="userForm" action="home.html" onsubmit="onSubmit(event)">
+<label for="fullname">Full Name:</label>
+<input type="text" id="fullname" name="fullname">
+<div id="fullnameError" class="error"></div>
+
+<label for="email">Email:</label>
+<input type="email" id="email" name="email">
+<div id="emailError" class="error"></div>
+
+<label for="phone">Phone Number:</label>
+<input type="text" id="phone" name="phone">
+<div id="phoneError" class="error"></div>
+<label for="age">Age:</label>
+<input type="number" id="age" name="age" min="1">
+<div id="ageError" class="error"></div>
+
+<label for="gender">Gender:</label>
+<select id="gender" name="gender">
+<option value="">Select</option>
+<option value="male">Male</option>
+<option value="female">Female</option>
+<option value="other">Other</option>
+</select>
+<div id="genderError" class="error"></div>
+
+<label for="feedback">Feedback / Message (500 characters max):</label>
+  <textarea id="feedback" name="feedback" maxlength="500"></textarea>
+  <div id="feedbackError" class="error"></div>
+ 
+
+  <button type="submit">Submit</button>
+</form>
+</body>
+</html>

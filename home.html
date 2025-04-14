@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="TERESTO - Transforming Every Resource, Enabling Social Technology Online. Explore tech blogs, tools, education, games, and more!">
+<title>TERESTO - Connect, Learn, Explore</title>
+<style>
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Inter', 'Segoe UI', Arial, sans-serif;
+    line-height: 1.7;
+    background: linear-gradient(145deg, #e6f0fa, #f9f9fc);
+    color: #2d3748;
+    scroll-behavior: smooth;
+  }
+
+  /* Header Styles */
+  header {
+    background: linear-gradient(90deg, #1a365d, #2b5288);
+    color: #fff;
+    padding: 1.5rem 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+
+  header h1 {
+    font-size: 2.8rem;
+    text-align: center;
+    letter-spacing: 1px;
+    animation: fadeIn 1.2s ease-in;
+  }
+
+  nav {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin-top: 1rem;
+    flex-wrap: wrap;
+  }
+
+  nav a {
+    color: #e6f0fa;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+  }
+
+  nav a:hover, nav a:focus {
+    background: #4a90e2;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+  }
+
+  nav a[aria-current="page"] {
+    background: #4a90e2;
+    font-weight: 700;
+  }
+
+  /* Skip Link for Accessibility */
+  .skip-link {
+    position: absolute;
+    top: -100px;
+    left: 1rem;
+    background: #1a365d;
+    color: #fff;
+    padding: 0.5rem 1rem;
+    z-index: 1001;
+    transition: top 0.3s;
+  }
+
+  .skip-link:focus {
+    top: 1rem;
+  }
+
+  /* Intro Section */
+  .intro {
+    background: linear-gradient(135deg, #4a90e2, #63b3ed);
+    color: #fff;
+    text-align: center;
+    padding: 4rem 2rem;
+    border-radius: 12px;
+    margin: 2rem auto;
+    max-width: 1200px;
+    animation: slideUp 0.8s ease-out;
+  }
+
+  .intro h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+
+  .intro p {
+    font-size: 1.3rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  /* Main Content */
+  .container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 2.5rem;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    animation: slideUp 0.8s ease-out;
+    transition: opacity 0.3s;
+  }
+
+  .container h2 {
+    color: #1a365d;
+    font-size: 2.2rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+
+  .card {
+    background: #f9fafb;
+    padding: 2rem;
+    border-radius: 10px;
+    text-align: center;
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+  }
+
+  .card:hover, .card:focus-within {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  }
+
+  .card img {
+    max-width: 100%;
+    height: 160px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+  }
+
+  .card h3 {
+    color: #1a365d;
+    font-size: 1.5rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .card p {
+    font-size: 1rem;
+    color: #4a5568;
+  }
+
+  /* Contact Form */
+  .contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    max-width: 700px;
+    margin: 2rem auto;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    padding: 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: border-color 0.3s, box-shadow 0.3s;
+  }
+
+  .contact-form input:focus,
+  .contact-form textarea:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 8px rgba(74, 144, 226, 0.3);
+    outline: none;
+  }
+
+  .contact-form button {
+    padding: 1rem;
+    background: #1a365d;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background 0.3s, transform 0.2s;
+  }
+
+  .contact-form button:hover, .contact-form button:focus {
+    background: #4a90e2;
+    transform: translateY(-2px);
+  }
+
+  /* About Section Specific Styles */
+  .about-section p {
+    font-size: 1.1rem;
+    color: #4a5568;
+    margin-bottom: 1.5rem;
+  }
+
+  .about-section ul {
+    list-style: none;
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+  }
+
+  .about-section ul li {
+    position: relative;
+    font-size: 1rem;
+    color: #2d3748;
+    margin-bottom: 0.8rem;
+    padding-left: 1.5rem;
+  }
+
+  .about-section ul li::before {
+    content: '✔';
+    color: #4a90e2;
+    position: absolute;
+    left: 0;
+    font-size: 1.2rem;
+  }
+
+  .team-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin: 2rem 0;
+  }
+
+  .team-card {
+    background: #f9fafb;
+    padding: 1.5rem;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+
+  .team-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+  }
+
+  .team-card h4 {
+    color: #1a365d;
+    font-size: 1.4rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .team-card p {
+    font-size: 1rem;
+    color: #4a5568;
+    margin-bottom: 1rem;
+  }
+
+  /* Footer */
+  footer {
+    background: #1a365d;
+    color: #e6f0fa;
+    text-align: center;
+    padding: 2rem;
+    margin-top: 3rem;
+    border-top: 4px solid #4a90e2;
+  }
+
+  footer p {
+    font-size: 1rem;
+  }
+
+  /* Animations */
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes slideUp {
+    from { transform: translateY(30px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+
+  /* Responsive Design */
+  @media (max-width: 768px) {
+    header h1 {
+      font-size: 2rem;
+    }
+
+    nav {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .intro {
+      padding: 2.5rem 1.5rem;
+    }
+
+    .intro h2 {
+      font-size: 1.8rem;
+    }
+
+    .container {
+      margin: 1.5rem;
+      padding: 1.5rem;
+    }
+
+    .card-grid, .team-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
+</head>
+<body>
+<!-- Skip to Main Content for Accessibility -->
+<a href="#main-content" class="skip-link">Skip to main content</a>
+
+<!-- Header -->
+<header role="banner">
+  <h1>TERESTO</h1>
+  <nav role="navigation" aria-label="Main navigation">
+    <a href="#home" onclick="loadPage('home')" aria-current="page">Home</a>
+    <a href="#blogs" onclick="loadPage('blogs')">Blogs</a>
+    <a href="#tools" onclick="loadPage('tools')">Tools</a>
+    <a href="#education" onclick="loadPage('education')">Education</a>
+    <a href="#games" onclick="loadPage('games')">Games</a>
+    <a href="#contact" onclick="loadPage('contact')">Contact</a>
+    <a href="#about" onclick="loadPage('about')">About</a>
+  </nav>
+</header>
+
+<!-- Intro Section -->
+<div class="intro" role="region" aria-label="Introduction">
+  <h2>Transforming Every Resource, Enabling Social Technology Online</h2>
+  <p>Welcome to TERESTO, your ultimate hub for technology, education, and entertainment. </p> 
+  <p> Move into insightful tech blogs, boost productivity with innovative tools, expand your knowledge with educational resources, and unwind with interactive games. </p>
+  <p> Join our community of Teresto "Transforming every resource, Enabling social technology online" and start exploring today!</p>
+</div>
+
+<!-- Main Content Area -->
+<main id="main-content" class="container" role="main">
+  <!-- Home Section -->
+  <section id="home-section" aria-labelledby="home-heading">
+    <h2 id="home-heading">Welcome to TERESTO</h2>
+    <p>TERESTO stands for <strong>Transforming Every Resource, Enabling Social Technology Online</strong>. We're here to revolutionize how you engage with technology, offering a vibrant platform packed with resources for everyone—from beginners to tech enthusiasts.</p>
+    <p>Explore our curated tech blogs to stay updated on the latest trends, use our productivity tools to streamline your work, learn new skills through engaging educational content, and have fun with interactive games like Snakes and Ladders. Connect with our community through comments, feedback, and more!</p>
+    
+    <div class="card-grid">
+      <div class="card" tabindex="0" role="button" onclick="loadPage('blogs')" aria-label="Explore Tech Blogs">
+        <img src="https://via.placeholder.com/300x160?text=Tech+Blogs" alt="Tech Blogs">
+        <h3>Tech Blogs</h3>
+        <p>Discover articles on eb designing essencials, coding, cybersecurity, and more tech advancements to keep you ahead in the tech world.</p>
+      </div>
+      <div class="card" tabindex="0" role="button" onclick="loadPage('tools')" aria-label="Explore Useful Tools">
+        <img src="https://via.placeholder.com/300x160?text=Tools" alt="Useful Tools">
+        <h3>Useful Tools</h3>
+        <p>From WhatsApp link generators to live code runners, boost your efficiency with our tools.</p>
+      </div>
+      <div class="card" tabindex="0" role="button" onclick="loadPage('education')" aria-label="Explore Education Resources">
+        <img src="https://via.placeholder.com/300x160?text=Education" alt="Education">
+        <h3>Learn & Grow</h3>
+        <p>Master English, dive into general knowledge, and access audio/video tutorials.</p>
+        <p> Let's learn something new, and teach others too. </p>
+        </div>
+      <div class="card" tabindex="0" role="button" onclick="loadPage('games')" aria-label="Explore Games">
+        <img src="https://via.placeholder.com/300x160?text=Games" alt="Games">
+        <h3>Play & Fun</h3>
+        <p>Enjoy our games and other interactive experiences.</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- Footer -->
+<footer role="contentinfo">
+  <p>© 2025 TERESTO | Made with ❤️  | Kuldeep Behera and Jaskaran Singh.<a href="#contact" onclick="loadPage('contact')" style="color: #4a90e2;">Contact Us</a> | <a href="#about" onclick="loadPage('about')" style="color: #4a90e2;">About Us</a></p>
+</footer>
+
+<script>
+  // Page mapping with external URLs (replace with your actual URLs)
+  const pages = {
+    home: null, // Home content is already in index.html
+    blogs: 'https://your-domain.com/blogs.html',
+    tools: 'https://your-domain.com/tools.html',
+    education: 'https://your-domain.com/education.html',
+    games: 'https://your-domain.com/games.html',
+    contact: 'https://your-domain.com/contact.html',
+    about: 'https://your-domain.com/about.html'
+  };
+
+  // Load page content dynamically
+  async function loadPage(pageId) {
+    // Update active nav link
+    document.querySelectorAll('nav a').forEach(link => {
+      link.removeAttribute('aria-current');
+      if (link.getAttribute('href') === `#${pageId}`) {
+        link.setAttribute('aria-current', 'page');
+      }
+    });
+
+    const mainContent = document.getElementById('main-content');
+    mainContent.style.opacity = '0';
+
+    // If home, restore default content
+    if (pageId === 'home') {
+      mainContent.innerHTML = `
+        <section id="home-section" aria-labelledby="home-heading">
+          <h2 id="home-heading">Welcome to TERESTO</h2>
+          <p>TERESTO stands for <strong>Transforming Every Resource, Enabling Social Technology Online</strong>. We're here to revolutionize how you engage with technology, offering a vibrant platform packed with resources for everyone—from beginners to tech enthusiasts.</p>
+          <p>Explore our curated tech blogs to stay updated on the latest trends, use our productivity tools to streamline your work, learn new skills through engaging educational content, and have fun with interactive games like Snakes and Ladders. Connect with our community through comments, feedback, and more!</p>
+          <div class="card-grid">
+            <div class="card" tabindex="0" role="button" onclick="loadPage('blogs')" aria-label="Explore Tech Blogs">
+              <img src="https://via.placeholder.com/300x160?text=Tech+Blogs" alt="Tech Blogs">
+              <h3>Tech Blogs</h3>
+              <p>Discover articles on AI, coding, cybersecurity, and more to keep you ahead in the tech world.</p>
+            </div>
+            <div class="card" tabindex="0" role="button" onclick="loadPage('tools')" aria-label="Explore Useful Tools">
+              <img src="https://via.placeholder.com/300x160?text=Tools" alt="Useful Tools">
+              <h3>Useful Tools</h3>
+              <p>From WhatsApp link generators to live code runners, boost your efficiency with our tools.</p>
+            </div>
+            <div class="card" tabindex="0" role="button" onclick="loadPage('education')" aria-label="Explore Education Resources">
+              <img src="https://via.placeholder.com/300x160?text=Education" alt="Education">
+              <h3>Learn & Grow</h3>
+              <p>Master English, dive into general knowledge, and access audio/video tutorials.</p>
+            </div>
+            <div class="card" tabindex="0" role="button" onclick="loadPage('games')" aria-label="Explore Games">
+              <img src="https://via.placeholder.com/300x160?text=Games" alt="Games">
+              <h3>Play & Fun</h3>
+              <p>Enjoy our Snakes and Ladders game and other interactive experiences.</p>
+            </div>
+          </div>
+        </section>
+      `;
+      setTimeout(() => { mainContent.style.opacity = '1'; }, 100);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    // Fetch external page content
+    try {
+      let content = '';
+      switch (pageId) {
+        case 'blogs':
+          content = await fetchBlogsContent();
+          break;
+        case 'tools':
+          content = await fetchToolsContent();
+          break;
+        case 'education':
+          content = await fetchEducationContent();
+          break;
+        case 'games':
+          content = await fetchGamesContent();
+          break;
+        case 'contact':
+          content = await fetchContactContent();
+          break;
+        case 'about':
+          content = await fetchAboutContent();
+          break;
+        default:
+          content = '<p>Page not found.</p>';
+      }
+      mainContent.innerHTML = content;
+      setTimeout(() => { mainContent.style.opacity = '1'; }, 100);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    } catch (error) {
+      mainContent.innerHTML = '<p>Error loading content. Please try again later.</p>';
+      mainContent.style.opacity = '1';
+    }
+  }
+
+  // Simulated fetch functions (replace with actual fetch to your URLs)
+  async function fetchBlogsContent() {
+    return `
+      <section id="blogs-section" aria-labelledby="blogs-heading">
+        <h2 id="blogs-heading">Tech Blogs</h2>
+        <p>Stay ahead with our insightful articles on the latest tech trends.</p>
+        <div class="card-grid">
+          <div class="card">
+            <img src="https://via.placeholder.com/300x160?text=AI+Blog" alt="AI Blog">
+            <h3>AI Made Simple</h3>
+            <p>Understand how artificial intelligence is shaping the future.</p>
+            <button onclick="alert('Read more about AI!')" aria-label="Read more about AI">Read More</button>
+          </div>
+          <div class="card">
+            <img src="https://via.placeholder.com/300x160?text=Coding+Blog" alt="Coding Blog">
+            <h3>Exploring Web Designing, Know about "HTML, CSS and Java Script"</h3>
+            <p>Learn essential topics and basics of Html, Css, and Java Script to write cleaner, efficient code and build your first websight.</p>
+            <button onclick="alert('Read more about Web Designing!')" aria-label="Read more about Web Designing">Read More</button>
+          </div>
+        </div>
+        <div class="comment-section" aria-label="Comments">
+          <h3>Comments</h3>
+          <form onsubmit="handleComment(event)">
+            <textarea placeholder="Add your comment..." rows="4" required aria-label="Comment input"></textarea>
+            <button type="submit">Post Comment</button>
+          </form>
+          <div id="comments-list" aria-live="polite"></div>
+        </div>
+      </section>
+    `;
+  }
+
+  async function fetchToolsContent() {
+    return `
+      <section id="tools-section" aria-labelledby="tools-heading">
+        <h2 id="tools-heading">Useful Tools</h2>
+        <p>Boost your productivity with our curated selection of tools.</p>
+        <div class="card-grid">
+          <div class="card">
+            <img src="https://via.placeholder.com/300x160?text=WhatsApp+Tool" alt="WhatsApp Link Generator">
+            <h3>WhatsApp Link Generator</h3>
+            <p>Create instant chat links for WhatsApp with one click.</p>
+            <input type="text" placeholder="Enter phone number" aria-label="Phone number input">
+            <button onclick="alert('Link generated!')" aria-label="Generate WhatsApp link">Generate</button>
+          </div>
+          <div class="card">
+            <img src="https://via.placeholder.com/300x160?text=Code+Runner" alt="Live Code Runner">
+            <h3>Live Code Runner</h3>
+            <p>Write and test HTML, CSS, and JS code in real-time.</p>
+            <button onclick="alert('Open code runner!')" aria-label="Open code runner">Try Now</button>
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  async function fetchEducationContent() {
+    return `
+      <section id="education-section" aria-labelledby="education-heading">
+        <h2 id="education-heading">Learn Something New</h2>
+        <p>Expand your skills with our educational resources.</p>
+        <div class="card-grid">
+          <div class="card">
+            <img src="https://via.placeholder.com/300x160?text=English+Learning" alt="Learn English">
+            <h3>Learn English Online</h3>
+            <p>Access audio lessons to improve your English skills.</p>
+            <audio controls aria-label="English lesson audio">
+              <source src="https://example.com/english-lesson.mp3" type="audio/mpeg">
+              Your browser does not support audio.
+            </audio>
+          </div>
+          <div class="card">
+            <img src="https://via.placeholder.com/300x160?text=General+Knowledge" alt="General Knowledge">
+            <h3>General Knowledge</h3>
+            <p>Watch videos to boost your knowledge on various topics.</p>
+            <video controls aria-label="General knowledge video">
+              <source src="https://example.com/gk-video.mp4" type="video/mp4">
+              Your browser does not support video.
+            </video>
+          </div>
+        </div>
+      </section>
+    `;
+  }
+
+  async function fetchGamesContent() {
+    return `
+      <section id="games-section" aria-labelledby="games-heading">
+        <h2 id="games-heading">Play & Have Fun</h2>
+        <p>Enjoy interactive games to unwind and challenge yourself.</p>
+        <div class="card-grid">
+          <div class="card">
+            <img src="https://via.placeholder.com/300x160?text=Snakes+Ladders" alt="Snakes and Ladders">
+            <h3>Snakes and Ladders</h3>
+            <p>Play our accessible game with a bot and enjoy audio-visual fun.</p>
+            <button onclick="startGame()" aria-label="Play Snakes and Ladders">Play Now</button>
+          </div>
+        </div>
+        <div id="game-area" aria-live="polite"></div>
+      </section>
+    `;
+  }
+
+  async function fetchContactContent() {
+    return `
+      <section id="contact-section" aria-labelledby="contact-heading">
+        <h2 id="contact-heading">Get in Touch</h2>
+        <p>Have a question or feedback? We’d love to hear from you!</p>
+        <form class="contact-form" onsubmit="handleSubmit(event)">
+          <input type="text" placeholder="Your Name" required aria-label="Name">
+          <input type="email" placeholder="Your Email" required aria-label="Email">
+          <textarea placeholder="Your Message" rows="6" required aria-label="Message"></textarea>
+          <button type="submit">Send Message</button>
+        </form>
+        <p>Email: <a href="mailto:contact@teresto.com">contact@teresto.com</a> | Phone: +1 234 567 890</p>
+      </section>
+    `;
+  }
+
+  async function fetchAboutContent() {
+    return `
+      <section id="about-section" class="about-section" aria-labelledby="about-heading">
+        <h2 id="about-heading">About TERESTO</h2>
+        <p><strong>TERESTO</strong> – <em>Transforming Every Resource, Enabling Social Technology Online</em> – is your one-stop platform for a world of digital exploration. Whether you're a tech enthusiast, a curious learner, or just looking for some fun, TERESTO brings together blogs, tools, educational resources, and games in a seamless, user-friendly experience.</p>
+        <p>Born as an academic mini-project for our Web Designing course, TERESTO reflects our passion for innovation, accessibility, and the limitless possibilities of the internet.</p>
+
+        <h3>🎯 Our Mission</h3>
+        <p>We’re here to empower everyone with a modern, interactive, and resourceful platform. TERESTO is designed to inspire and engage through:</p>
+        <ul>
+          <li>Interactive blog articles on trending technology topics</li>
+          <li>Handy web tools like WhatsApp Chat Link Generator and Text Analyzers</li>
+          <li>Educational resources on English learning and General Knowledge</li>
+          <li>Classic games like Snake & Ladders, built with engaging visuals and sound</li>
+          <li>A clean, responsive design accessible across all devices</li>
+        </ul>
+
+        <h3>👨‍💻 Meet the Team</h3>
+        <div class="team-grid">
+          <div class="team-card">
+            <h4>Kuldeep</h4>
+            <p><em>Developer & Architect</em></p>
+            <p>Kuldeep brought TERESTO to life by leading the technical development, ensuring a smooth and functional experience. His contributions include:</p>
+            <ul>
+              <li>Writing HTML, CSS, and JavaScript code</li>
+              <li>Integrating external APIs and media files</li>
+              <li>Building navigation, tools, blog structure, and game mechanics</li>
+              <li>Ensuring responsiveness and performance</li>
+            </ul>
+          </div>
+          <div class="team-card">
+            <h4>Jaskaran Singh</h4>
+            <p><em>Designer, Logic Provider & Visual Enhancer</em></p>
+            <p>Jaskaran crafted an engaging and intuitive user experience with a keen eye for design. His work includes:</p>
+            <ul>
+              <li>Creating visually appealing layouts using CSS</li>
+              <li>Adding relevant images and icons for each section</li>
+              <li>Styling for a modern, clean look</li>
+              <li>Enhancing accessibility and responsiveness</li>
+              <li>Analyzing user needs to provide essential, engaging ideas</li>
+            </ul>
+          </div>
+        </div>
+
+        <h3>📌 Purpose & Future Vision</h3>
+        <p>While TERESTO was created for educational purposes and academic evaluation, our vision extends far beyond the classroom. We see TERESTO as a foundation for something greater, with plans to:</p>
+        <ul>
+          <li>Expand with backend functionality</li>
+          <li>Add user login features and personalized dashboards</li>
+          <li>Host community-driven blogs, tools, and forums</li>
+          <li>Integrate real-time content updates</li>
+        </ul>
+        <p>At its core, TERESTO is about continuous learning and digital empowerment. We’re excited to build a platform that makes technology accessible, innovative, and meaningful for all.</p>
+        <p><strong>Thank you for exploring TERESTO – where technology meets innovation, simplicity, and purpose.</strong></p>
+      </section>
+    `;
+  }
+
+  // Handle form submissions
+  function handleSubmit(event) {
+    event.preventDefault();
+    alert('Thanks for your message! We’ll get back to you soon.');
+    event.target.reset();
+  }
+
+  function handleComment(event) {
+    event.preventDefault();
+    const textarea = event.target.querySelector('textarea');
+    const commentsList = document.getElementById('comments-list');
+    const comment = document.createElement('p');
+    comment.textContent = textarea.value;
+    commentsList.appendChild(comment);
+    textarea.value = '';
+    alert('Comment posted!');
+  }
+
+  // Simulate starting Snakes and Ladders game
+  function startGame() {
+    const gameArea = document.getElementById('game-area');
+    gameArea.innerHTML = '<p>Loading Snakes and Ladders... (Replace with your game embed)</p>';
+    // Replace with actual game logic or iframe to your GitHub-hosted game
+  }
+
+  // Load home by default
+  loadPage('home');
+</script>
+</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Code Studio</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background: white;
+            padding: 20px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            border-radius: 5px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        textarea {
+            width: 100%;
+            height: 200px;
+            font-family: monospace;
+            font-size: 14px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            resize: vertical;
+            background: #f9f9f9;
+        }
+        .buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            margin-top: 10px;
+            gap: 5px;
+        }
+        button, input[type="file"] {
+            padding: 10px 15px;
+            font-size: 14px;
+            border: none;
+            cursor: pointer;
+            border-radius: 3px;
+            transition: background 0.3s;
+        }
+        button {
+            background: #007bff;
+            color: white;
+        }
+        button:hover {
+            background: #0056b3;
+        }
+        input[type="file"] {
+            background: #28a745;
+            color: white;
+        }
+        input[type="file"]:hover {
+            background: #218838;
+        }
+        iframe {
+            width: 100%;
+            height: 300px;
+            border: 1px solid #ccc;
+            margin-top: 15px;
+            background: white;
+        }
+        .error-message {
+            color: red;
+            font-weight: bold;
+            display: none;
+            margin-top: 10px;
+        }
+        .button-group {
+            display: flex;
+            gap: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Live Code Studio</h1>
+        <p>Run your HTML, CSS, and JavaScript code in real-time.</p>
+
+        <textarea id="codeInput" placeholder="Write your HTML, CSS, and JavaScript code here..."></textarea>
+        
+        <div class="buttons">
+            <div class="button-group">
+                <button id="pasteBtn">📋 Paste Code</button>
+                <button id="copyBtn">☕ Copy Code</button>
+                <input type="file" id="fileInput">
+            </div>
+            <button id="runBtn">▶ Run Code</button>
+            <button id="clearBtn">❌ Clear</button>
+            <button id="saveBtn">💾 Save Code</button>
+        </div>
+
+        <p class="error-message" id="errorMessage"></p>
+        
+        <iframe id="outputFrame"></iframe>
+    </div>
+
+    <script>
+        const codeInput = document.getElementById('codeInput');
+        const runBtn = document.getElementById('runBtn');
+        const clearBtn = document.getElementById('clearBtn');
+        const saveBtn = document.getElementById('saveBtn');
+        const pasteBtn = document.getElementById('pasteBtn');
+        const copyBtn = document.getElementById('copyBtn');
+        const fileInput = document.getElementById('fileInput');
+        const outputFrame = document.getElementById('outputFrame');
+        const errorMessage = document.getElementById('errorMessage');
+
+        // Function to run the code
+        function runCode() {
+            try {
+                const code = codeInput.value;
+                const iframeDoc = outputFrame.contentDocument || outputFrame.contentWindow.document;
+                iframeDoc.open();
+                iframeDoc.write(code);
+                iframeDoc.close();
+                errorMessage.style.display = "none";
+            } catch (error) {
+                errorMessage.style.display = "block";
+                errorMessage.textContent = "Error: " + error.message;
+            }
+        }
+
+        // Function to clear code
+        function clearCode() {
+            codeInput.value = "";
+            const iframeDoc = outputFrame.contentDocument || outputFrame.contentWindow.document;
+            iframeDoc.open();
+            iframeDoc.write("");
+            iframeDoc.close();
+            errorMessage.style.display = "none";
+        }
+
+        // Function to save code as a file
+        function saveCode() {
+            const code = codeInput.value;
+            const blob = new Blob([code], { type: "text/html" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = "code.html";
+            link.click();
+        }
+
+        // Function to paste clipboard content
+        async function pasteCode() {
+            try {
+                const text = await navigator.clipboard.readText();
+                codeInput.value = text;
+            } catch (err) {
+                alert("Failed to paste. Please allow clipboard permissions.");
+            }
+        }
+
+        // Function to copy code to clipboard
+        function copyCode() {
+            navigator.clipboard.writeText(codeInput.value).then(() => {
+                alert("Code copied successfully!");
+            }).catch(() => {
+                alert("Failed to copy code.");
+            });
+        }
+
+        // Function to handle file selection
+        fileInput.addEventListener("change", function () {
+            const file = fileInput.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function (e) {
+                    codeInput.value = e.target.result;
+                    runCode(); // Run the file immediately
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        // Live preview feature
+        codeInput.addEventListener("input", runCode);
+
+        // Button event listeners
+        runBtn.addEventListener("click", runCode);
+        clearBtn.addEventListener("click", clearCode);
+        saveBtn.addEventListener("click", saveCode);
+        pasteBtn.addEventListener("click", pasteCode);
+        copyBtn.addEventListener("click", copyCode);
+    </script>
+</body>
+</html>
