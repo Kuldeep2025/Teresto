@@ -7,7 +7,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.10.377/pdf.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-chtml.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@6/dist/tesseract.min.js"></script>
     <style>
         body { font-family: Arial, sans-serif; background: #f9f9f9; padding: 20px; }
         .container { max-width: 900px; margin: auto; background: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
@@ -41,7 +40,7 @@
 
     <div id="mainSection" class="container">
         <h1>PDF Reader and OCR for the Blind and Visually Impaired</h1>
-        <p style="text-align:center;font-size:18px;">Upload a PDF to extract and read its text content accurately, with support for tables, headings, and formulas.</p>
+        <p style="text-align:center;font-size:18px;">Upload a PDF to extract and read its text content accurately, with automatic language detection and support for tables, headings, and formulas.</p>
         <input type="file" id="pdfInput" accept="application/pdf">
         <button id="readNowBtn" class="action-button hidden" disabled>Process PDF</button>
     </div>
@@ -52,6 +51,7 @@
             <div>
                 <input type="number" id="pageInput" min="1" placeholder="Page number" aria-label="Enter page number">
                 <button id="goToPageBtn" class="action-button">Go to Page</button>
+                <button id="processAllBtn" class="action-button">Process All Pages</button>
             </div>
             <div id="pageInfo" class="json-info"></div>
         </div>
@@ -93,7 +93,7 @@
 
             const GROQ_API_KEY = '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';
             const GROQ_API_URL = 'https://api.groq.com/openai/v1/chat/completions';
-            const OCR_MODEL = 'llama-4-scout-17b-16e-instruct'; // Current active vision model on Groq (December 2025)
+            const OCR_MODEL = 'meta-llama/llama-4-scout-17b-16e-instruct'; // Current active vision model as of December 2025
             const QA_MODEL = 'llama-3.3-70b-versatile';
 
             const pdfInput = document.getElementById('pdfInput');
@@ -101,6 +101,7 @@
             const navUpBtn = document.getElementById('navUpBtn');
             const pageInput = document.getElementById('pageInput');
             const goToPageBtn = document.getElementById('goToPageBtn');
+            const processAllBtn = document.getElementById('processAllBtn');
             const pageInfo = document.getElementById('pageInfo');
             const currentPageDisplay = document.getElementById('currentPageDisplay');
             const outputDiv = document.getElementById('output');
@@ -123,10 +124,9 @@
             let pdf = null;
             let currentPage = 1;
             let totalPages = 0;
-            let ocrResults = []; // Stores final corrected markdown text per page
-            let qaCache = []; // Q&A history per page
-
-            const worker = await Tesseract.createWorker('eng');
+            let ocrResults = [];
+            let qaCache = [];
+            let backgroundQueue = [];
 
             function announce(message) {
                 liveRegion.textContent = message;
@@ -156,16 +156,17 @@
                     totalPages = pdf.numPages;
                     ocrResults = new Array(totalPages).fill(null);
                     qaCache = [];
-                    await processPage(1);
+                    await processPage(1, true); // Show UI for first page
                     updatePageInfo();
                     announce(`Processing complete. Page 1 of ${totalPages} ready.`);
+                    // Queue remaining pages for background processing
+                    for (let i = 2; i <= totalPages; i++) {
+                        backgroundQueue.push(i);
+                    }
+                    processBackgroundQueue();
                 } catch (err) {
                     announce('Error loading PDF: ' + err.message);
                     outputDiv.innerHTML = `<p style="color:red;">Error: ${err.message}</p>`;
-                } finally {
-                    progressSection.classList.add('hidden');
-                    processingSound.pause();
-                    processingSound.currentTime = 0;
                 }
             });
 
@@ -174,47 +175,46 @@
                 mainSection.classList.remove('hidden');
                 outputDiv.innerHTML = '';
                 announce('Returned to upload page.');
+                backgroundQueue = [];
             });
 
             copyOcrBtn.addEventListener('click', async () => {
                 const rawMarkdown = ocrResults[currentPage - 1] || '';
-                let plainText = rawMarkdown;
-
-                // Better plain text extraction: remove Markdown syntax
-                plainText = rawMarkdown
-                    .replace(/#{1,6}\s?/g, '') // Remove headings
-                    .replace(/(\|[\s\-|:]*)+\|?/g, '') // Remove table syntax
-                    .replace(/\*\*?|__?|~~?|==?|>\s?/g, '') // Remove bold/italic/strikethrough/highlight/blockquote
-                    .replace(/!\[.*?\]\(.*?\)|\[.*?\]\(.*?\)/g, '') // Remove images/links
-                    .replace(/\$\$(.*?)\$\$|\$(.*?)\$/g, '$1$2') // Keep math content
-                    .replace(/\n{2,}/g, '\n\n') // Normalize newlines
+                let plainText = rawMarkdown
+                    .replace(/#{1,6}\s?/g, '')
+                    .replace(/(\|[\s\-|:]*)+\|?/g, '')
+                    .replace(/\*\*?|__?|~~?|==?|>\s?/g, '')
+                    .replace(/!\[.*?\]\(.*?\)|\[.*?\]\(.*?\)/g, '')
+                    .replace(/\$\$(.*?)\$\$|\$(.*?)\$/g, '$1$2')
+                    .replace(/\n{2,}/g, '\n\n')
                     .trim();
 
                 try {
                     await navigator.clipboard.writeText(plainText);
                     announce('Clean text copied to clipboard successfully.');
                 } catch (err) {
-                    // Ultimate fallback: copy raw markdown
                     await navigator.clipboard.writeText(rawMarkdown);
-                    announce('Text copied (Markdown format). Please try manual copy if needed.');
+                    announce('Text copied (Markdown format).');
                 }
             });
 
-            async function processPage(pageNum) {
+            async function processPage(pageNum, showUI = false) {
                 if (ocrResults[pageNum - 1]) {
                     renderOCR(ocrResults[pageNum - 1], pageNum);
                     filterQAHistory(pageNum);
+                    pageChangeSound.play();
                     return;
                 }
 
-                progressSection.classList.remove('hidden');
-                processingText.textContent = `Processing page ${pageNum}...`;
-                processingSound.play();
-                pageChangeSound.play();
-                updateProgress(0);
+                if (showUI) {
+                    progressSection.classList.remove('hidden');
+                    processingText.textContent = `Processing page ${pageNum}...`;
+                    processingSound.play();
+                    pageChangeSound.play();
+                }
 
                 const page = await pdf.getPage(pageNum);
-                const viewport = page.getViewport({ scale: 2.5 });
+                const viewport = page.getViewport({ scale: 2.0 });
                 const canvas = document.createElement('canvas');
                 canvas.height = viewport.height;
                 canvas.width = viewport.width;
@@ -225,51 +225,100 @@
                 const imageDataUrl = enhancedCanvas.toDataURL('image/png');
                 const base64Image = imageDataUrl.split(',')[1];
 
-                processingText.textContent = `Running optical character recognition on page ${pageNum}...`;
-                const { data: { text: rawOCR } } = await worker.recognize(imageDataUrl);
-
-                processingText.textContent = `Enhancing accuracy and structure for page ${pageNum}...`;
                 let finalOCR;
                 for (let attempt = 1; attempt <= 3; attempt++) {
                     try {
                         finalOCR = await callGroq(OCR_MODEL, `
-You are an expert document reader. Use the raw OCR text below and the page image to produce a perfect, structured version:
-
-Raw OCR text:
-"""${rawOCR}"""
+You are an expert multilingual OCR system. Automatically detect the language(s) in the image and extract the text accurately in its original script.
 
 Instructions:
-- Correct all spelling and recognition errors.
-- Preserve every word and number exactly as intended.
+- Detect the language automatically (e.g., English, Hindi, Arabic, Chinese, etc.).
+- Output the text exactly as it appears, in the original language and script.
+- Correct any recognition errors.
 - Format headings with #, ##, etc.
 - Format tables as proper Markdown tables.
 - Format math in $$...$$ (display) or $...$ (inline).
-- Output only clean Markdown.
+- If there are non-text images, describe them briefly in [Image description: ...] at their approximate position.
+- Preserve paragraph and section structure.
+- Output only clean Markdown – no explanations.
 `, base64Image);
                         break;
                     } catch (err) {
+                        console.warn(`Attempt ${attempt} failed: ${err.message}`);
                         if (attempt === 3) throw err;
                         await new Promise(r => setTimeout(r, 2000 * attempt));
                     }
                 }
 
                 ocrResults[pageNum - 1] = finalOCR;
-                renderOCR(finalOCR, pageNum, imageDataUrl);
-                filterQAHistory(pageNum);
-                progressSection.classList.add('hidden');
-                processingSound.pause();
-                processingSound.currentTime = 0;
+                if (pageNum === currentPage) {
+                    renderOCR(finalOCR, pageNum, imageDataUrl);
+                    filterQAHistory(pageNum);
+                    if (showUI) {
+                        progressSection.classList.add('hidden');
+                        processingSound.pause();
+                        processingSound.currentTime = 0;
+                    }
+                    announce(`Page ${pageNum} processed successfully.`);
+                }
                 MathJax.typesetPromise();
-                announce(`Page ${pageNum} processed successfully.`);
             }
+
+            async function processBackgroundQueue() {
+                while (backgroundQueue.length > 0) {
+                    const nextPage = backgroundQueue.shift();
+                    if (nextPage !== currentPage && !ocrResults[nextPage - 1]) {
+                        await processPage(nextPage, false);
+                    }
+                }
+            }
+
+            async function changePage(newPage) {
+                if (newPage < 1 || newPage > totalPages) return;
+                const oldPage = currentPage;
+                currentPage = newPage;
+                pageInput.value = currentPage;
+                pageChangeSound.play();
+                await processPage(currentPage, true); // Show UI if needed
+                updatePageInfo();
+                // Restart background processing if interrupted
+                processBackgroundQueue();
+            }
+
+            prevPageBtn.addEventListener('click', () => changePage(currentPage - 1));
+            nextPageBtn.addEventListener('click', () => changePage(currentPage + 1));
+            goToPageBtn.addEventListener('click', () => {
+                const num = parseInt(pageInput.value);
+                if (num >= 1 && num <= totalPages) changePage(num);
+            });
+
+            processAllBtn.addEventListener('click', async () => {
+                progressSection.classList.remove('hidden');
+                processingText.textContent = 'Processing all pages...';
+                processingSound.play();
+                announce('Processing all pages...');
+                try {
+                    for (let i = 1; i <= totalPages; i++) {
+                        processingText.textContent = `Processing page ${i} of ${totalPages}...`;
+                        updateProgress((i / totalPages) * 100);
+                        await processPage(i, i === currentPage);
+                    }
+                    announce('All pages processed successfully.');
+                } catch (err) {
+                    announce('Error processing all pages: ' + err.message);
+                } finally {
+                    progressSection.classList.add('hidden');
+                    processingSound.pause();
+                    processingSound.currentTime = 0;
+                }
+            });
+
+            // Other functions remain unchanged (callGroq, enhanceImage, renderOCR, filterQAHistory, askBtn, clearHistoryBtn, updatePageInfo)
 
             async function callGroq(model, prompt, base64Image = null) {
                 const content = [{ type: 'text', text: prompt }];
                 if (base64Image) {
-                    content.push({
-                        type: 'image_url',
-                        image_url: { url: `data:image/png;base64,${base64Image}` }
-                    });
+                    content.push({ type: 'image_url', image_url: { url: `data:image/png;base64,${base64Image}` } });
                 }
 
                 const response = await fetch(GROQ_API_URL, {
@@ -301,17 +350,11 @@ Instructions:
                 const data = imageData.data;
                 for (let i = 0; i < data.length; i += 4) {
                     const gray = 0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2];
-                    const enhanced = Math.min(255, Math.max(0, (gray - 128) * 1.5 + 128));
+                    const enhanced = Math.min(255, Math.max(0, (gray - 128) * 1.3 + 128));
                     data[i] = data[i + 1] = data[i + 2] = enhanced;
                 }
                 ctx.putImageData(imageData, 0, 0);
-
-                const upscaled = document.createElement('canvas');
-                upscaled.width = canvas.width * 1.2;
-                upscaled.height = canvas.height * 1.2;
-                const upCtx = upscaled.getContext('2d');
-                upCtx.drawImage(canvas, 0, 0, upscaled.width, upscaled.height);
-                return upscaled;
+                return canvas;
             }
 
             function renderOCR(markdown, pageNum, previewSrc = null) {
@@ -353,7 +396,7 @@ Instructions:
                 announce('Processing your question...');
 
                 const context = ocrResults[currentPage - 1];
-                const qaPrompt = `Using only the following page content, answer the question clearly and accurately:\n\n${context}\n\nQuestion: ${question}`;
+                const qaPrompt = `Using only the following page content (in its original language), answer the question clearly and accurately:\n\n${context}\n\nQuestion: ${question}`;
 
                 try {
                     const answer = await callGroq(QA_MODEL, qaPrompt);
@@ -378,23 +421,6 @@ Instructions:
                 filterQAHistory(currentPage);
                 announce('Question history cleared for this page.');
             });
-
-            prevPageBtn.addEventListener('click', () => changePage(currentPage - 1));
-            nextPageBtn.addEventListener('click', () => changePage(currentPage + 1));
-            goToPageBtn.addEventListener('click', () => {
-                const num = parseInt(pageInput.value);
-                if (num >= 1 && num <= totalPages) changePage(num);
-            });
-
-            async function changePage(newPage) {
-                if (newPage < 1 || newPage > totalPages) return;
-                currentPage = newPage;
-                pageInput.value = currentPage;
-                processingSound.play();
-                pageChangeSound.play();
-                await processPage(currentPage);
-                updatePageInfo();
-            }
 
             function updatePageInfo() {
                 pageInfo.innerHTML = `Page ${currentPage} of ${totalPages}`;
